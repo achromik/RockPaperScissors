@@ -48,6 +48,12 @@ function setGameElements() {
             break;
         case 'ended':
                 newGameBtn.innerHTML = 'Try again';
+                playerPickElem.innerHTML = '';
+                playerResultElem.innerHTML = '';
+                computerPickElem.innerHTML = '';
+                computerResultElem.innerHTML ='';
+                player.score = computer.score = 0;
+                setGamePoints();
                 /* falls through */
         case 'notStarted':
                 /* falls through */
@@ -80,7 +86,6 @@ function newGame() {
 
 //player choice
 function playerPick(playerPick) {
-    console.log(playerPick);
 
     var computerPick = getComputerPick();
 
@@ -131,7 +136,6 @@ function checkRoundWinner(playerPick, computerPick) {
     if (winnerIs == 'player') {
         playerResultElem.innerHTML = 'Win!';
         player.score++;
-        console.log(player.score);
     } else if (winnerIs == 'computer') {
         computerResultElem.innerHTML = 'Win!';
         computer.score++;
@@ -161,11 +165,6 @@ function endGame(winner) {
 
     //call modal
     $('#resultModal').modal('show');
-    
-    //reset counters and set game status as ended
-    player.score = computer.score = 0;
-    setGamePoints();
-    
     
     gameState = 'ended';
     setGameElements();
