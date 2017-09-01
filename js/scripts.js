@@ -1,3 +1,11 @@
+//set game parameters 
+var CONST = Object.freeze({
+    MAX_POINTS: 5,     //Points when game ends
+    ROCK: 'Rock',
+    PAPER: 'Paper',
+    SCISSORS: 'Scissors',
+});
+
 //*********   BUTTON NEW GAME  ***********
 //get NG's button element
 var newGameBtn = document.getElementById('js-newGameButton');
@@ -15,11 +23,11 @@ var pickRock        = document.getElementById('js-playerPick_rock'),
 
 //**** set listeners to RPS buttons    
 //human player pick ROCK
-pickRock.addEventListener('click', function () { playerPick('rock'); });  
+pickRock.addEventListener('click', function () { playerPick(CONST.ROCK); });  
 //human player pick PAPER
-pickPaper.addEventListener('click', function() { playerPick('paper'); });  
+pickPaper.addEventListener('click', function() { playerPick(CONST.PAPER); });  
 //human player pick SCISSORS
-pickScissors.addEventListener('click', function() { playerPick('scissors'); });  
+pickScissors.addEventListener('click', function() { playerPick(CONST.SCISSORS); });  
 
 
 //********** Game' Logic ************************
@@ -97,9 +105,9 @@ function playerPick(playerPick) {
     checkRoundWinner(playerPick, computerPick);
     setGamePoints();
 
-    if (player.score === 10) {
+    if (player.score === CONST.MAX_POINTS) {
         endGame('player');
-    } else if (computer.score === 10) {
+    } else if (computer.score === CONST.MAX_POINTS) {
         endGame('computer');
     }
 }
@@ -107,8 +115,8 @@ function playerPick(playerPick) {
 
 //computer random choice
 function getComputerPick() {
-    var possiblePicks = ['rock', 'paper', 'scissors'];
-    return possiblePicks[Math.floor(Math.random() * 3)];
+    var possiblePicks = [CONST.ROCK, CONST.PAPER, CONST.SCISSORS];
+    return possiblePicks[Math.floor(Math.random() * possiblePicks.length)];
 }
 
 //add player and copmuter choice on page
@@ -126,9 +134,9 @@ function checkRoundWinner(playerPick, computerPick) {
     if (playerPick == computerPick) {
         winnerIs = 'noone';                 //remis
     } else if (
-            (computerPick == 'rock' && playerPick == 'scissors') ||
-            (computerPick == 'paper' && playerPick == 'rock') ||
-            (computerPick == 'scissors' && playerPick == 'paper')) {
+            (computerPick == CONST.ROCK && playerPick == CONST.SCISSORS) ||
+            (computerPick == CONST.PAPER && playerPick == CONST.ROCK) ||
+            (computerPick == CONST.SCISSORS && playerPick == CONST.PAPER)) {
     
         winnerIs = 'computer';
     }
