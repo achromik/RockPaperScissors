@@ -1,13 +1,51 @@
+//set game parameters and language options
+var CONST = {
+        MAX_POINTS: 10
+    };
+
+//polish version    
+if (getURLParams('lang') == 'pl') {
+    CONST.ROCK = 'Kamień';
+    CONST.PAPER = 'Papier';
+    CONST.SCISSORS = 'Nożyce';
+    CONST.PROMPT_NAME = 'Podaj swoje imię:';
+    CONST.PLAYER_NAME_PLACEHOLDER = 'Imię gracza';
+} else /* english version */ {  
+    CONST.ROCK = 'Rock';
+    CONST.PAPER = 'Paper';
+    CONST.SCISSORS = 'Scissors';
+    CONST.PROMPT_NAME = 'Please enter your name:';
+    CONST.PLAYER_NAME_PLACEHOLDER = 'Player name';
+}
+Object.freeze(CONST);
+
+
 //set game parameters 
-var CONST = Object.freeze({
-    MAX_POINTS: 5,     //Points when game ends
-    ROCK: 'Rock',
-    PAPER: 'Paper',
-    SCISSORS: 'Scissors',
-});
+// var CONST = Object.freeze({
+//     MAX_POINTS: 10,     //Points when game ends
+//     ROCK: 'Kamień',
+//     PAPER: 'Papier',
+//     SCISSORS: 'Nożyce',
+//     PROMPT_NAME: 'Podaj swoje imię:', 
+//     PLAYER_NAME_PLACEHOLDER: 'Imię gracza'
+// });
+
+// var CONST = Object.freeze({
+//     MAX_POINTS: 10,     //Points when game ends
+//     ROCK: 'Rock',
+//     PAPER: 'Paper',
+//     SCISSORS: 'Scissors',
+//     PROMPT_NAME: 'Please enter your name:', 
+//     PLAYER_NAME_PLACEHOLDER: 'Player name'
+// });
+
+//Initializng language version
+document.getElementById('js-playerPick_rock').lastChild.nodeValue = CONST.ROCK;
+document.getElementById('js-playerPick_paper').lastChild.nodeValue = CONST.PAPER;
+document.getElementById('js-playerPick_scissors').lastChild.nodeValue = CONST.SCISSORS;
+
 
 //*********   BUTTON NEW GAME  ***********
-//get NG's button element
 var newGameBtn = document.getElementById('js-newGameButton');
 
 //set listener to NG button 
@@ -22,11 +60,9 @@ var pickRock        = document.getElementById('js-playerPick_rock'),
     pickScissors    = document.getElementById('js-playerPick_scissors');
 
 //**** set listeners to RPS buttons    
-//human player pick ROCK
+//human's player picks
 pickRock.addEventListener('click', function () { playerPick(CONST.ROCK); });  
-//human player pick PAPER
 pickPaper.addEventListener('click', function() { playerPick(CONST.PAPER); });  
-//human player pick SCISSORS
 pickScissors.addEventListener('click', function() { playerPick(CONST.SCISSORS); });  
 
 
@@ -81,7 +117,7 @@ var playerPointsElem    = document.getElementById('js-playerPoints'),
     computerPointsElem  = document.getElementById('js-computerPoints'); 
 
 function newGame() {
-    player.name = prompt('Please enter your name','player name');
+    player.name = prompt(CONST.PROMPT_NAME, CONST.PLAYER_NAME_PLACEHOLDER);
     if (player.name) {
         player.score = computer.score = 0;
         gameState = 'started';
@@ -156,24 +192,47 @@ function setGamePoints() {
     computerPointsElem.innerHTML = computer.score;
 }
 
+
 //end of game
+var winnerInfo          = document.getElementById('js-winnerInfo'),
+    playerPointsModal   = document.getElementById('js-playerPointsModal'),
+    playerNameModal     = document.getElementById('js-playerNameModal'),
+    computerPointsModal = document.getElementById('js-computerPointsModal');
+
 function endGame(winner) {
 
     //check who wins   
     if (winner == 'player') {
-        document.getElementById('js-winnerInfo').innerHTML = '<b>' + player.name.toUpperCase() + '</b> YOU WIN!';
+        winnerInfo.innerHTML = '<b>' + player.name.toUpperCase() + '</b> YOU WIN!';
     } else if (winner == 'computer') {
-        document.getElementById('js-winnerInfo').innerHTML = '<b>Sorry ' + player.name.toUpperCase() + '!</b> YOU LOSE!';
+        winnerInfo.innerHTML = '<b>Sorry ' + player.name.toUpperCase() + '!</b> YOU LOSE!';
     }
 
     //set game result in modal
-    document.getElementById('js-playerPointsModal').textContent = player.score;
-    document.getElementById('js-playerNameModal').textContent = player.name;
-    document.getElementById('js-computerPointsModal').textContent = computer.score;
+    playerPointsModal.textContent = player.score;
+    playerNameModal.textContent = player.name;
+    computerPointsModal.textContent = computer.score;
 
     //call modal
     $('#resultModal').modal('show');
     
     gameState = 'ended';
     setGameElements();
+}
+
+
+//search paramet in URL andr if exist retur value of it
+function getURLParams(serachedParameter) {
+    
+    //set querystring part of URL whitout '?'
+    var currentPageURLQuery = window.location.search.substring(1);  
+    var currentURLParams = currentPageURLQuery.split('&');
+    for (var i = 0, size = currentURLParams.length; i < size; i++ ) {
+        var parameterName = currentURLParams[i].split('=');
+        if (parameterName[0] == serachedParameter) {
+            return parameterName[1];
+        } else {
+            return -1;
+        }
+    }
 }
