@@ -12,6 +12,7 @@ Used technologies:
 - some jQuery
 
 [Live English version](http://aleksanderchromik.pl/RockPaperScissors)
+
 [Live Polish version](http://aleksanderchromik.pl/RockPaperScissors?lang=pl) (not full language supported yet)
 
 
