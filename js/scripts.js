@@ -46,6 +46,7 @@ document.getElementById('js-playerPick_scissors').lastChild.nodeValue = CONST.SC
 
 
 //*********   BUTTON NEW GAME  ***********
+//get NG's button element
 var newGameBtn = document.getElementById('js-newGameButton');
 
 //set listener to NG button 
@@ -60,9 +61,11 @@ var pickRock        = document.getElementById('js-playerPick_rock'),
     pickScissors    = document.getElementById('js-playerPick_scissors');
 
 //**** set listeners to RPS buttons    
-//human's player picks
+//human player pick ROCK
 pickRock.addEventListener('click', function () { playerPick(CONST.ROCK); });  
+//human player pick PAPER
 pickPaper.addEventListener('click', function() { playerPick(CONST.PAPER); });  
+//human player pick SCISSORS
 pickScissors.addEventListener('click', function() { playerPick(CONST.SCISSORS); });  
 
 
@@ -99,7 +102,7 @@ function setGameElements() {
                 player.score = computer.score = 0;
                 setGamePoints();
                 /* falls through */
-        case 'notStarted':
+                case 'notStarted':
                 /* falls through */
         default:        
                 newGameElem.style.display = 'block';
@@ -117,7 +120,7 @@ var playerPointsElem    = document.getElementById('js-playerPoints'),
     computerPointsElem  = document.getElementById('js-computerPoints'); 
 
 function newGame() {
-    player.name = prompt(CONST.PROMPT_NAME, CONST.PLAYER_NAME_PLACEHOLDER);
+    player.name = prompt(CONST.PROMPT_NAME,'player name');
     if (player.name) {
         player.score = computer.score = 0;
         gameState = 'started';
@@ -160,10 +163,11 @@ var playerPickElem      = document.getElementById('js-playerPick'),
     computerPickElem    = document.getElementById('js-computerPick'),
     playerResultElem    = document.getElementById('js-playerResult'),
     computerResultElem  = document.getElementById('js-computerResult');
+    drawResultElem = document.getElementById('js-draw');
 
 
 function checkRoundWinner(playerPick, computerPick) {
-    playerResultElem.innerHTML = computerResultElem.innerHTML = ''; 
+    playerResultElem.innerHTML = computerResultElem.innerHTML = drawResultElem.innerHTML = ''; 
 
     var winnerIs = 'player';
 
@@ -183,6 +187,8 @@ function checkRoundWinner(playerPick, computerPick) {
     } else if (winnerIs == 'computer') {
         computerResultElem.innerHTML = 'Win!';
         computer.score++;
+    } else {
+        drawResultElem.innerHTML="Draw!";
     }
 }
 
@@ -192,26 +198,20 @@ function setGamePoints() {
     computerPointsElem.innerHTML = computer.score;
 }
 
-
 //end of game
-var winnerInfo          = document.getElementById('js-winnerInfo'),
-    playerPointsModal   = document.getElementById('js-playerPointsModal'),
-    playerNameModal     = document.getElementById('js-playerNameModal'),
-    computerPointsModal = document.getElementById('js-computerPointsModal');
-
 function endGame(winner) {
 
     //check who wins   
     if (winner == 'player') {
-        winnerInfo.innerHTML = '<b>' + player.name.toUpperCase() + '</b> YOU WIN!';
+        document.getElementById('js-winnerInfo').innerHTML = '<b>' + player.name.toUpperCase() + '</b> YOU WIN!';
     } else if (winner == 'computer') {
-        winnerInfo.innerHTML = '<b>Sorry ' + player.name.toUpperCase() + '!</b> YOU LOSE!';
+        document.getElementById('js-winnerInfo').innerHTML = '<b>Sorry ' + player.name.toUpperCase() + '!</b> YOU LOSE!';
     }
 
     //set game result in modal
-    playerPointsModal.textContent = player.score;
-    playerNameModal.textContent = player.name;
-    computerPointsModal.textContent = computer.score;
+    document.getElementById('js-playerPointsModal').textContent = player.score;
+    document.getElementById('js-playerNameModal').textContent = player.name;
+    document.getElementById('js-computerPointsModal').textContent = computer.score;
 
     //call modal
     $('#resultModal').modal('show');
@@ -219,7 +219,6 @@ function endGame(winner) {
     gameState = 'ended';
     setGameElements();
 }
-
 
 //search paramet in URL andr if exist retur value of it
 function getURLParams(serachedParameter) {

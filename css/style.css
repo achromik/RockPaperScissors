@@ -1,0 +1,30 @@
+.container {
+  padding-top: 30px;
+  padding-bottom: 30px; }
+
+#js-playerPickElement button {
+  font-size: 25px;
+  margin-top: 3px; }
+  #js-playerPickElement button:hover {
+    background-color: #9fcafd; }
+
+.modal-body > div {
+  padding: 30px; }
+
+.modal-footer {
+  text-align: center; }
+
+.badge {
+  font-size: 22px;
+  min-width: 65px; }
+
+#js-resultsTableElement {
+  font-size: 18px; }
+  #js-resultsTableElement > div > div {
+    margin-top: 15px; }
+
+@media (max-width: 480px) {
+  #js-playerPickElement button {
+    font-size: 16px; } }
+
+/*# sourceMappingURL=style.css.map */

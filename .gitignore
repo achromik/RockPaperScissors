@@ -1,4 +1,4 @@
 node_modules
-css
+#css
 js/*.min.js
 js/*.map
