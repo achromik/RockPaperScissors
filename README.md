@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # RockPaperScissors
+=======
+#RockPaperScissors
+>>>>>>> 99539c099531710868651045943eb12b1996fcb6
 
 ### Game **Rock - Paper - Scissors** 
 
